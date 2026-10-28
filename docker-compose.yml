@@ -1,0 +1,13 @@
+services:
+  laravelapp:
+    container_name: laravelapp
+    build:
+      context: ./
+      dockerfile: laravel.dockerfile
+    image: laravel_img
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "88:8000"
