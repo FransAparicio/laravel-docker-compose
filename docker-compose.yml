@@ -1,13 +1,31 @@
 services:
-  laravelapp:
-    container_name: laravelapp
+  laravel_app2:
+    container_name: laravel_app2
     build:
       context: ./
       dockerfile: laravel.dockerfile
-    image: laravel_img
+    image: laravel_img2
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:
       - ./:/var/www/html
     ports:
-      - "88:8000"
+      - "90:8000"
+    command: php artisan serve --host=0.0.0.0 --port=8000
+  
+  vite:
+    image: node:22
+    container_name: laravel_vite
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - vite_node_modules:/var/www/html/node_modules
+    ports:
+      - "5173:5173"
+    command: >
+      sh -c "npm install &&
+      npm run dev -- --host 0.0.0.0 --port 5173"
+    restart: unless-stopped
+
+volumes:
+  vite_node_modules:
